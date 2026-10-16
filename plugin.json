@@ -1,0 +1,9 @@
+{
+  "id": "pdf",
+  "name": "PDF",
+  "description": "View PDFs, annotate and sign them, fill their forms, and rearrange their pages.",
+  "icon": "FileText",
+  "color": "#f87171",
+  "version": "0.1.0",
+  "minDeck": "0.17.0"
+}
