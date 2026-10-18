@@ -32,12 +32,13 @@ function Thumb({ doc, n, active, aspect, onPick }: { doc: PDFDocumentProxy; n: n
   useEffect(() => { if (active) box.current?.scrollIntoView({ block: "nearest" }); }, [active]);
 
   return (
-    <button ref={box} onClick={() => onPick(n)} className="flex flex-col items-center gap-1 rounded-md p-1.5 hover:bg-[var(--bg-hover)]"
+    <button ref={box} onClick={() => onPick(n)} title={`Page ${n}`}
+      className={"flex flex-col items-center gap-1 rounded-md p-1.5 transition-colors " + (active ? "" : "hover:bg-white/5")}
       style={active ? { background: "var(--accent-soft)" } : undefined}>
       {/* Page-shaped before it is drawn: with no height, every thumbnail would be "on screen" at
           once and all of them would draw. */}
       <canvas ref={canvas} className="rounded-sm bg-white shadow" style={{ width: WIDTH, aspectRatio: aspect }} />
-      <span className="text-[11px] text-text-muted">{n}</span>
+      <span className={"text-[11px] tabular-nums " + (active ? "text-text-primary" : "text-text-muted")}>{n}</span>
     </button>
   );
 }
@@ -51,7 +52,7 @@ export function Thumbnails({ doc, current, onPick }: { doc: PDFDocumentProxy; cu
     return () => { live = false; };
   }, [doc]);
   return (
-    <div className="flex w-40 shrink-0 flex-col items-center gap-1 overflow-y-auto border-r border-subtle p-2">
+    <div className="scroll-thin flex w-40 shrink-0 flex-col items-center gap-1 overflow-y-auto border-r border-subtle bg-panel p-2">
       {Array.from({ length: doc.numPages }, (_, i) => (
         <Thumb key={i + 1} doc={doc} n={i + 1} active={current === i + 1} aspect={aspect} onPick={onPick} />
       ))}

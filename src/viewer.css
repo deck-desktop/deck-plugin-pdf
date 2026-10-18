@@ -36,6 +36,7 @@
   padding: 0 16px;
   pointer-events: none;
 }
+/* Floating, so on the card surface with a menu's 10px corners (docs/design.md in Deck). */
 .pdf-panel {
   pointer-events: auto;
   display: flex;
@@ -43,17 +44,17 @@
   gap: 2px;
   padding: 4px;
   border: 1px solid var(--border-subtle);
-  border-radius: 12px;
-  background: var(--bg-elev);
+  border-radius: 10px;
+  background: var(--bg-card);
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
   font-size: 12px;
   color: var(--text-secondary);
 }
 .pdf-sep {
   width: 1px;
-  height: 20px;
+  height: 14px;
   margin: 0 4px;
-  background: var(--border-subtle);
+  background: rgb(var(--overlay-rgb) / 0.1);
 }
 .pdf-label {
   padding: 0 4px;
@@ -65,8 +66,9 @@
   place-items: center;
   height: 32px;
   min-width: 32px;
-  border-radius: 8px;
+  border-radius: var(--r-md);
   color: var(--text-muted);
+  transition: background-color 0.15s, color 0.15s;
 }
 .pdf-chip {
   height: 28px;
@@ -76,17 +78,20 @@
 }
 .pdf-tool:hover:not(:disabled),
 .pdf-chip:hover:not(:disabled) {
-  background: var(--bg-hover);
+  background: rgb(var(--overlay-rgb) / 0.05);
   color: var(--text-primary);
 }
 .pdf-tool:disabled,
 .pdf-chip:disabled {
   opacity: 0.4;
 }
+/* Selected: the accent's soft fill, the icon at full strength. */
 .pdf-tool[data-on],
-.pdf-chip[data-on] {
+.pdf-chip[data-on],
+.pdf-tool[data-on]:hover:not(:disabled),
+.pdf-chip[data-on]:hover:not(:disabled) {
   background: var(--accent-soft);
-  color: var(--accent);
+  color: var(--text-primary);
 }
 .pdf-swatch {
   display: grid;
@@ -110,14 +115,14 @@
 }
 .pdf-warn {
   padding: 0 8px;
-  color: var(--warn, #f59e0b);
+  color: rgb(var(--tone-amber-400));
 }
 .pdf-size {
   width: 40px;
   height: 28px;
-  border-radius: 6px;
+  border-radius: var(--r-sm);
   border: 1px solid var(--border-subtle);
-  background: var(--bg-app);
+  background: var(--bg-elev);
   color: var(--text-primary);
   text-align: center;
   outline: none;
@@ -130,7 +135,8 @@
 .pdf-custom-color {
   position: relative;
   cursor: pointer;
-  background: conic-gradient(#f87171, #fbbf24, #6ee7b7, #60a5fa, #a78bfa, #f472b6, #f87171);
+  background: conic-gradient(rgb(var(--tone-red-400)), rgb(var(--tone-amber-400)), rgb(var(--tone-emerald-300)),
+    rgb(var(--tone-blue-400)), rgb(var(--tone-violet-400)), rgb(var(--tone-pink-400)), rgb(var(--tone-red-400)));
   width: 18px;
   height: 18px;
   margin: 0 5px;
@@ -142,22 +148,24 @@
   cursor: pointer;
 }
 
-/* The top bar: the pages toggle on the left, find and save on the right. */
+/* The top bar, docked to the pane's edge: the pages toggle on the left, find and save on the right. */
 .pdf-bar {
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
   gap: 8px;
-  height: 44px;
+  height: 40px;
   flex-shrink: 0;
   padding: 0 8px;
   border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-panel);
   font-size: 12px;
   color: var(--text-secondary);
 }
 .pdf-bar .pdf-tool {
-  height: 30px;
-  min-width: 30px;
+  height: 28px;
+  min-width: 28px;
+  border-radius: var(--r-lg);
 }
 
 /* The page and zoom panels, in the bottom corners at the dock's height. */
@@ -176,9 +184,9 @@
 }
 .pdf-page {
   height: 26px;
-  border-radius: 6px;
+  border-radius: var(--r-sm);
   border: 1px solid var(--border-subtle);
-  background: var(--bg-app);
+  background: var(--bg-elev);
   color: var(--text-primary);
   text-align: center;
   outline: none;
@@ -194,15 +202,18 @@
   color: var(--text-primary);
 }
 
+/* A small field: the search icon at its start, the match count inside it at the end. */
 .pdf-find {
   display: flex;
   align-items: center;
   gap: 6px;
   height: 28px;
-  padding: 0 8px;
-  border-radius: 8px;
+  padding: 0 10px;
+  border-radius: var(--r-lg);
   border: 1px solid var(--border-subtle);
   background: var(--bg-elev);
+  font-size: 11px;
+  transition: border-color 0.15s;
 }
 .pdf-find:focus-within {
   border-color: var(--accent);
@@ -212,15 +223,23 @@
   background: transparent;
   outline: none;
   color: var(--text-primary);
+  font-size: 12.5px;
 }
+.pdf-find input::placeholder {
+  color: var(--text-muted);
+}
+/* The one primary action: filled in the accent while there is something to save, a quiet
+   secondary button once saved. */
 .pdf-save {
   display: flex;
   align-items: stretch;
   height: 28px;
-  border-radius: 8px;
+  border-radius: var(--r-lg);
   overflow: hidden;
   background: var(--accent);
-  color: white;
+  color: rgb(var(--on-accent-rgb));
+  font-size: 12px;
+  font-weight: 500;
 }
 .pdf-save button {
   display: flex;
@@ -230,15 +249,20 @@
 }
 .pdf-save button + button {
   padding: 0 6px;
-  border-left: 1px solid rgba(255, 255, 255, 0.25);
+  border-left: 1px solid rgb(var(--on-accent-rgb) / 0.2);
 }
 .pdf-save button:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgb(var(--on-accent-rgb) / 0.12);
 }
 .pdf-save[data-idle] {
   background: var(--bg-elev);
   color: var(--text-muted);
   box-shadow: inset 0 0 0 1px var(--border-subtle);
+  font-weight: 400;
+}
+.pdf-save[data-idle] button:hover:not(:disabled) {
+  background: rgb(var(--overlay-rgb) / 0.05);
+  color: var(--text-primary);
 }
 .pdf-save[data-idle] button + button {
   border-left-color: var(--border-subtle);

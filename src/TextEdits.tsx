@@ -213,7 +213,8 @@ export function TextEdits({ viewer, container, edits, editing, fonts, tick, onCh
               <div className="pointer-events-auto absolute cursor-text" style={{ left, top, width: Math.max(width, ox + bx - left + measure(e, fontSize, fonts)), height }} title={`Was: ${e.before}`}
                 onClick={(ev) => { ev.stopPropagation(); onEdit(i); }}>
                 <button onClick={(ev) => { ev.stopPropagation(); onRemove(i); }} title="Undo this edit"
-                  className="absolute -right-2 -top-2 hidden size-4 place-items-center rounded-full bg-[var(--accent)] text-white group-hover:grid"><X size={10} /></button>
+                  className="absolute -right-2 -top-2 hidden size-4 place-items-center rounded-full border border-subtle text-text-secondary shadow-xl transition-colors hover:text-red-400 group-hover:grid"
+                  style={{ background: "var(--bg-card)" }}><X size={10} /></button>
               </div>
             )}
           </div>
