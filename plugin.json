@@ -4,6 +4,6 @@
   "description": "View PDFs, highlight, draw and add text and images on them, fill their forms, and retype their text in its own font.",
   "icon": "FileText",
   "color": "#f87171",
-  "version": "0.1.0",
-  "minDeck": "1.5.0"
+  "version": "0.2.0",
+  "minDeck": "1.6.0"
 }
