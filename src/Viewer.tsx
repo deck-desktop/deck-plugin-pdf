@@ -301,13 +301,18 @@ export function Viewer({ file }: { file: string }) {
 
   if (error) {
     return (
-      <div className="flex h-full flex-col items-center justify-center gap-3 text-sm text-text-muted">
-        <FileWarning size={22} />
-        <div className="font-medium text-text-primary">Could not open {file.split(/[\\/]/).pop()}</div>
-        <p className="max-w-sm text-center text-xs">{error}</p>
-        <button onClick={() => void pickAndOpen()} className="flex items-center gap-1.5 rounded-md border border-subtle bg-elev px-3 py-1.5 text-xs text-text-secondary hover:text-text-primary">
-          <FolderOpen size={13} /> Open another PDF…
-        </button>
+      <div className="flex h-full items-center justify-center px-6">
+        <div className="flex max-w-[460px] items-start gap-2.5 rounded-lg border border-subtle bg-elev px-3 py-3 text-[12px] leading-relaxed text-text-muted">
+          <FileWarning size={16} className="mt-0.5 shrink-0" />
+          <div className="flex min-w-0 flex-col items-start gap-1">
+            <div className="text-[12.5px] font-medium text-text-primary">Could not open {file.split(/[\\/]/).pop()}</div>
+            <p className="break-words">{error}</p>
+            <button onClick={() => void pickAndOpen()}
+              className="mt-1.5 flex h-8 items-center gap-1.5 rounded-lg px-3 text-[12.5px] font-medium text-white transition hover:brightness-110" style={{ background: "var(--accent)" }}>
+              <FolderOpen size={13} /> Open another PDF…
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
@@ -343,7 +348,7 @@ export function Viewer({ file }: { file: string }) {
           </div>
         </div>
       </div>
-      {saveError && <div className="shrink-0 border-b border-subtle px-3 py-1.5 text-xs text-warn">{saveError}</div>}
+      {saveError && <div className="shrink-0 border-b border-subtle px-3 py-1.5 text-[12px] text-amber-400">{saveError}</div>}
       <div className="flex min-h-0 flex-1">
         {thumbs && doc && <Thumbnails doc={doc} current={page} onPick={go} />}
         <div className="relative min-w-0 flex-1 bg-[var(--bg-app)]">
